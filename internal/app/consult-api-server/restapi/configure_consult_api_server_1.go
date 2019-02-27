@@ -32,11 +32,21 @@ func configureAPI(api *operations.ConsultAPIServerAPI) http.Handler {
 
 	api.JSONProducer = runtime.JSONProducer()
 
+	//TODO: Uncomment 4
+	//dbHandler := handler.NewDBHandler("localhost", "PR00B121")
+
 	api.ConsultationAddConsultationHandler = consultation.AddConsultationHandlerFunc(func(params consultation.AddConsultationParams) middleware.Responder {
 		return middleware.NotImplemented("operation consultation.AddConsultation has not yet been implemented")
-		////TODO: Uncomment 4
+		////TODO: Uncomment 3
 		//return handler.ConsultationAddConsultationHandler(&params)
+		//TODO: Uncomment 4
+		//return dbHandler.ConsultationAddConsultationHandler(&params)
 	})
+
+	//TODO: Uncomment 5
+	//api.ConsultationGetConsultationsHandler = consultation.GetConsultationsHandlerFunc(func(params consultation.GetConsultationsParams) middleware.Responder {
+	//	return dbHandler.ConsultationGetConsultationsHandler(&params)
+	//})
 
 	api.ServerShutdown = func() {}
 
@@ -65,8 +75,13 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	return handler
-
-	//// TODO: Uncomment 2
+	//
+	//// TODO: Uncomment 1
+	//logrus.SetFormatter(&logrus.TextFormatter{
+	//	FullTimestamp: true,
+	//})
+	//logrus.SetLevel(logrus.DebugLevel)
+	//
 	//handleLogging := negroni.New()
 	//negroni.LoggerDefaultFormat = "negroni | {{.Status}} | \t {{.Duration}} | {{.Hostname}} | {{.Method}} {{.Path}}"
 	//logger := negroni.NewLogger()
@@ -75,9 +90,9 @@ func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	//
 	//handleLogging.UseHandler(handler)
 	//
-	//return handleLogging
-
-	//// TODO: Uncomment 3
+	////return handleLogging
+	//
+	//// TODO: Uncomment 2
 	//handleCORS := cors.Default().Handler
 	//
 	//return handleCORS(handleLogging)

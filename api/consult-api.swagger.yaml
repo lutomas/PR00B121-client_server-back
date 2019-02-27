@@ -68,6 +68,28 @@ paths:
           description: "Invalid request."
           schema:
             $ref: "#/definitions/Error"
+#    TODO: Comment-Out 6
+#    get:
+#      tags:
+#        - "consultation"
+#      summary: "Visos konsultacija."
+#      description: "Visos konsultacija."
+#      operationId: "getConsultations"
+#      consumes:
+#        - "application/json"
+#      produces:
+#        - "application/json"
+#      responses:
+#        200:
+#          description: "Konsultacijų masyvas."
+#          schema:
+#            type: "array"
+#            items:
+#              $ref: '#/definitions/ConsultationResp'
+#        400:
+#          description: "Invalid request."
+#          schema:
+#            $ref: "#/definitions/Error"
 
 
 definitions:
@@ -93,6 +115,25 @@ definitions:
     description: "Konsultacijos kūrimo struktūra."
     type: "object"
     properties:
+      name:
+        description: 'Konsultacijos pavadinimas.'
+        format: string
+        type: string
+        example: "Programavimas"
+
+  ConsultationResp:
+    description: "Konsultacijos struktūra."
+    type: "object"
+    properties:
+      id:
+        description: 'Konsultacijos pavadinimas.'
+#        format: ObjectId
+#        type: string
+        x-go-custom-tag: bson:"_id"
+        x-go-type:
+          import:
+            package: 'github.com/globalsign/mgo/bson/specdata'
+          type: 'ObjectId'
       name:
         description: 'Konsultacijos pavadinimas.'
         format: string
