@@ -6,9 +6,9 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	errors "github.com/go-openapi/errors"
-	runtime "github.com/go-openapi/runtime"
-	middleware "github.com/go-openapi/runtime/middleware"
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
+	"github.com/go-openapi/runtime/middleware"
 
 	"github.com/lutomas/PR00B121-client_server-back/internal/app/consult-api-server/restapi/operations"
 	"github.com/lutomas/PR00B121-client_server-back/internal/app/consult-api-server/restapi/operations/consultation"
@@ -34,6 +34,8 @@ func configureAPI(api *operations.ConsultAPIServerAPI) http.Handler {
 
 	api.ConsultationAddConsultationHandler = consultation.AddConsultationHandlerFunc(func(params consultation.AddConsultationParams) middleware.Responder {
 		return middleware.NotImplemented("operation consultation.AddConsultation has not yet been implemented")
+		////TODO: Uncomment 4
+		//return handler.ConsultationAddConsultationHandler(&params)
 	})
 
 	api.ServerShutdown = func() {}
@@ -63,4 +65,20 @@ func setupMiddlewares(handler http.Handler) http.Handler {
 // So this is a good place to plug in a panic handling middleware, logging and metrics
 func setupGlobalMiddleware(handler http.Handler) http.Handler {
 	return handler
+
+	//// TODO: Uncomment 2
+	//handleLogging := negroni.New()
+	//negroni.LoggerDefaultFormat = "negroni | {{.Status}} | \t {{.Duration}} | {{.Hostname}} | {{.Method}} {{.Path}}"
+	//logger := negroni.NewLogger()
+	//logger.ALogger = logrus.StandardLogger() // Use standard logrus logger
+	//handleLogging.Use(logger)
+	//
+	//handleLogging.UseHandler(handler)
+	//
+	//return handleLogging
+
+	//// TODO: Uncomment 3
+	//handleCORS := cors.Default().Handler
+	//
+	//return handleCORS(handleLogging)
 }
