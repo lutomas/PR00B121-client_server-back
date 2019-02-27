@@ -1,0 +1,104 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "consult-api"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "lutomas@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "127.0.0.1:9999"
+basePath: "/api/v1"
+tags:
+  - name: "consultation"
+    description: "Viskas kas susiję su konsultacijomis."
+
+schemes:
+  - "http"
+# - "https"
+parameters:
+  languageHeader:
+    in: "header"
+    name: "Accept-Language"
+    description: "Http default header for expected response language."
+    required: true
+    type: "string"
+    default: "en"
+  acceptHeader:
+    in: "header"
+    name: "accept"
+    type: "string"
+
+
+responses:
+  unauthorisedAccess:
+    description: "Unauthorised access."
+    schema:
+      $ref: "#/definitions/Error"
+  forbiddenAccess:
+    description: "User has not validated his email or user was logged off by the other device."
+    schema:
+      $ref: "#/definitions/Error"
+
+paths:
+  /consultation:
+    post:
+      tags:
+        - "consultation"
+      summary: "Kuriama konsultacija."
+      description: "Kuriama konsultacija."
+      operationId: "addConsultation"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Konsulatcijos info."
+          required: true
+          schema:
+            $ref: "#/definitions/ConsultationReq"
+      responses:
+        201:
+          description: "Ok, Created."
+        400:
+          description: "Invalid request."
+          schema:
+            $ref: "#/definitions/Error"
+
+
+definitions:
+  Error:
+    type: "object"
+    description: "Structure representing error. Common interface to return error for submitted data in `'details'` or global error in `'msg'` e.g. 'Can't access db."
+    properties:
+      reason:
+        type: "integer"
+        format: "int64"
+        example: 17
+      msg:
+        type: "string"
+        description: "Error message. Usually is populated when error occurs not on submitted data."
+        example: "Balance is low."
+      details:
+        type: "object"
+        description: "Details will be populated in format: `<submitted-property>: <error-message>`"
+        example:
+          email: "Invalid email."
+
+  ConsultationReq:
+    description: "Konsultacijos kūrimo struktūra."
+    type: "object"
+    properties:
+      name:
+        description: 'Konsultacijos pavadinimas.'
+        format: string
+        type: string
+        example: "Programavimas"
+
+externalDocs:
+  description: "Tomas Lukošius"
+  url: "https://unfuzz.com"
