@@ -7,7 +7,7 @@ import (
 )
 
 func ConsultationAddConsultationHandler(params *consultation.AddConsultationParams) middleware.Responder {
-	logrus.Debugf("Received: %v", params.Body)
+	logrus.Debugf("Received: %+v", params.Body)
 
 	return consultation.NewAddConsultationCreated()
 }

@@ -24,7 +24,11 @@ func NewDBHandler(host, dbName string) *DBHandler {
 
 //
 func (x *DBHandler) ConsultationAddConsultationHandler(params *consultation.AddConsultationParams) middleware.Responder {
-	logrus.Debugf("Received: %v \n", params.Body)
+	return x.doConsultationAddConsultationHandler(params.Body)
+}
+
+func (x *DBHandler) doConsultationAddConsultationHandler(body *models.ConsultationReq) middleware.Responder {
+	logrus.Debugf("Received: %v \n", body)
 
 	//get session
 	session, err := mgo.Dial(x.host)
@@ -44,7 +48,7 @@ func (x *DBHandler) ConsultationAddConsultationHandler(params *consultation.AddC
 	//get collection
 	collection := session.DB(x.dbName).C(collectionConsultancy)
 
-	err = collection.Insert(params.Body)
+	err = collection.Insert(body)
 	if err != nil {
 		errorResponse := &models.Error{
 			Reason: int64(DbInsertError),
@@ -60,13 +64,13 @@ func (x *DBHandler) ConsultationAddConsultationHandler(params *consultation.AddC
 //func (x *DBHandler) ConsultationGetConsultationsHandler(params *consultation.GetConsultationsParams) middleware.Responder {
 //	errorResponse := &models.Error{
 //		Reason: int64(NotImplemented),
-//		Msg:    "Nerealizuota",
+//		Msg:    "Nerealizuota tikrai is cia!",
 //	}
 //	return consultation.NewGetConsultationsBadRequest().WithPayload(errorResponse)
 //}
 
 //TODO: Uncomment 6
-func (x *DBHandler) ConsultationGetConsultationsHandler(params *consultation.GetConsultationsParams) middleware.Responder {
+func (x *DBHandler) ConsultationGetConsultationsHandler(_ *consultation.GetConsultationsParams) middleware.Responder {
 	//get session
 	session, err := mgo.Dial(x.host)
 	if err != nil {
